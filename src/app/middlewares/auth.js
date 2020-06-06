@@ -12,14 +12,12 @@ export default async (req, res, next) => {
   const [, token] = authHeader.split(' ');
 
   try {
-    const decoded = await promisify(jwt.verify)(token, authConfig.secret); // O promisify transforma a callback em uma função assicrona, os parentes chamam essa função retornada passando os parametros que estão dentro deles
+    const decoded = await promisify(jwt.verify)(token, authConfig.secret); // ??
 
-    req.userId = decoded.id;
-    // eslint-disable-next-line no-console
-    console.log(decoded);
+    req.adminId = decoded.id;
 
     return next();
   } catch (err) {
-    return res.status(401).json({ error: 'Invalid Token' });
+    return res.status(401).json({ error: 'Token invalid' });
   }
 };
